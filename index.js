@@ -1,12 +1,20 @@
-const http = require('http');
-const PORT = 3000;
+import express from 'express';
+import bodyParser from 'body-parser';
 
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello World!');
+const app = express();
+app.use(bodyParser.json());
+
+app.post('/', (req, res) => {
+  const email = req.body.email;
+  if (!email) {
+    res.status(400).send('Error: No email provided.');
+  } else if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
+    res.status(400).send('Error: Invalid email format.');
+  } else {
+    res.send(email);
+  }
 });
 
-server.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}/`);
+app.listen(3000, () => {
+  console.log('Server running on port 3000');
 });
