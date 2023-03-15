@@ -1,6 +1,7 @@
 {
   "name": "nodejs-app",
   "version": "1.0.0",
+  "type": "module",
   "description": "A minimal Node.js web application.",
   "main": "index.js",
   "author": "alphasec",
