@@ -1,18 +1,22 @@
-import express from 'express';
-const app = express();
+const express = require('express');
+const bodyParser = require('body-parser');
 
-app.use(express.json());
+const app = express();
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.post('/', (req, res) => {
-  const email = req.body.email;
-  if (!email) {
-    return res.status(400).json({ error: 'No email provided' });
+  const name = req.body.name;
+  if (!name) {
+    res.status(400).send('Error: No name specified');
+  } else {
+    const names = name.split(' ');
+    const firstName = names[0];
+    const lastName = names.length > 1 ? names[names.length - 1] : '';
+    res.send({ firstName, lastName });
   }
-  const emailParts = email.split('@');
-  const username = emailParts[0];
-  res.json({ username });
 });
 
-app.listen(3000, () => {
-  console.log('Server running on port 3000');
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
 });
