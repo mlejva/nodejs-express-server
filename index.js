@@ -1,23 +1,22 @@
 
             import { createRequire } from "module";
             const require = createRequire(import.meta.url);
-            const express = require('express');
-const { check, validationResult } = require('express-validator');
-
+            import express from 'express';
 const app = express();
+const port = 3000;
 
-app.use(express.json());
+app.use(express.json())
 
-app.post('/validate-email', [
-  check('email').isEmail()
-], (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+app.post('/', (req, res) => {
+  const email = req.body.email;
+  const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  if (!regex.test(email)) {
+    res.status(400).send('Invalid email format');
+  } else {
+    res.send('Ok');
   }
-  res.send('Ok');
 });
 
-app.listen(3000, () => {
-  console.log('Server running on port 3000');
-});
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`)
+})
