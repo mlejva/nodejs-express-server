@@ -26,7 +26,7 @@ app.post('/', (req, res) => {
     text: message,
   });
 
-  return res.send('Success');
+  return res.status(200).send('Success');
 });
 
 app.listen(port, () => {
