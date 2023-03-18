@@ -10,24 +10,23 @@ const port = 3000;
 
 app.use(express.json())
 
-app.post('/', async (req, res) => {
+app.post('/', (req, res) => {
   const { email } = req.body;
-  if (!email) {
-    return res.status(400).send('Email is required');
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!email || !emailRegex.test(email)) {
+    return res.status(400).send('Invalid email');
   }
 
   const slackClient = new WebClient(process.env.SLACK_ACCESS_TOKEN);
   const message = `User '${email}' signed up`;
-  try {
-    await slackClient.chat.postMessage({
-      channel: 'general',
-      text: message,
-    });
-  } catch (error) {
-    console.error(error);
-  }
 
-  res.send('Success');
+  slackClient.chat.postMessage({
+    channel: 'general',
+    text: message,
+  });
+
+  return res.send('Success');
 });
 
 app.listen(port, () => {
