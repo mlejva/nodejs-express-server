@@ -8,6 +8,7 @@
   "license": "MIT",
   "dependencies": {
     "@sagi.io/workers-slack": "^0.0.55",
+    "@slack/web-api": "^6.8.1",
     "body-parser": "^1.20.2",
     "express": "^4.18.2",
     "express-validator": "^6.15.0"
