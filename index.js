@@ -12,7 +12,7 @@ app.post('/', (req, res) => {
   if (req.body.email) {
     res.send('Ok');
   } else {
-    res.status(400).send('Error: Email is missing');
+    res.status(400).send('Error: email is missing');
   }
 });
 
